@@ -8,8 +8,8 @@ import lombok.Data;
 import org.hibernate.annotations.Type;
 
 @Data
-@Entity
 @Table
+@Entity
 public class MMethod {
 
     @Id

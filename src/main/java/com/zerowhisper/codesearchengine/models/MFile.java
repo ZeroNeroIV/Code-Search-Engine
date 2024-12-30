@@ -20,6 +20,8 @@ public class MFile {
     private LocalDateTime uploadTime;
     @Column(nullable = false)
     private String content;
+    @Column(nullable = false)
+    private String language;
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = MProject.class)
     private Long projectId;
 }
