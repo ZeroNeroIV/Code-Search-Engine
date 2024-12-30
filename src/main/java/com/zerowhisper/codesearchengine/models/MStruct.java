@@ -31,14 +31,17 @@ public class MStruct {
     private JsonNode position; // as json string
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = MFile.class)
-    private Long fileID;
+    @JoinColumn(name = "File_id", nullable = false)
+    private MFile file;
 
     // Inheritance
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = MStruct.class)
-    private Long inheritanceStructId;
+    @JoinColumn(name = "Inherited_from", nullable = false)
+    private MStruct inheritance;
 
     // Composition
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = MStruct.class)
-    private Long compositionStructID;
+    @JoinColumn(name = "CompostionWith", nullable = false)
+    private MStruct composition;
 
 }

@@ -31,5 +31,6 @@ public class MLoop {
     private JsonNode position; // as json string
 
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = MMethod.class)
-    private Long methodId;
+    @JoinColumn(name = "method_id", nullable = false)
+    private MMethod method;
 }

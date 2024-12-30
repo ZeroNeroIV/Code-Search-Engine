@@ -31,5 +31,6 @@ public class MMethod {
     private JsonNode position; // as json string
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = MStruct.class)
-    private Long structId;
+    @JoinColumn(name = "Struct_id", nullable = false)
+    private MStruct struct;
 }

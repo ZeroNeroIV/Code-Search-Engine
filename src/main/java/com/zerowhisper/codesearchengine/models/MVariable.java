@@ -28,10 +28,12 @@ public class MVariable {
     private String containedAt;
 
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = MMethod.class)
-    private  Long methodId;
+    @JoinColumn(name = "method_id", nullable = false)
+    private  MMethod method;
 
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = MStruct.class)
-    private  Long structId;
+    @JoinColumn(name = "struct_id", nullable = false)
+    private  MStruct struct;
 
     @Column
     private String dataType;
