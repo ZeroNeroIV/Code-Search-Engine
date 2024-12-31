@@ -33,7 +33,7 @@ public class MethodExtractor  {
 
                 MMethod mMethod = new MMethod();
                 mMethod.setMethodValue(methodDeclaration.getNameAsString());
-                mMethod.setReturnType(mMethod.getReturnType());
+                mMethod.setReturnType(methodDeclaration.getType().toString());
 
                 methodDeclaration.getRange().ifPresent(range -> {
                     // 1. Make a Map<String, Object>

@@ -6,7 +6,9 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.ForStmt;
 import com.zerowhisper.codesearchengine.models.MLoop;
 import com.zerowhisper.codesearchengine.models.MMethod;
+import com.zerowhisper.codesearchengine.repositories.LoopRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,13 +17,16 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@AllArgsConstructor
 public class LoopExtractor{
 
+    private final LoopRepository loopRepository;
+
+    @Autowired
+    public LoopExtractor(LoopRepository loopRepository) {
+        this.loopRepository = loopRepository;
+    }
+
     public void process(MMethod mMethod, MethodDeclaration methodDeclaration) {
-
-
-
 
              methodDeclaration.findAll(ForStmt.class).forEach(lop -> {
                  MLoop loop = new MLoop();
@@ -63,6 +68,7 @@ public class LoopExtractor{
                      loop.setPosition(jsonNode);
                  });
 
+                loopRepository.save(loop);
              });
 
     }
