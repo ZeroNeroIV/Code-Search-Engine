@@ -22,7 +22,7 @@ public class MFile {
     @Column(nullable = false)
     private LocalDateTime uploadTime;
 
-    @Column(nullable = false)
+    @Column
     private String content;
 
     @Column(nullable = false)

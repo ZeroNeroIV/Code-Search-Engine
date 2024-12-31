@@ -16,8 +16,6 @@ public class MStruct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String structName;
 
     @Column
     private String structType;
@@ -36,12 +34,67 @@ public class MStruct {
 
     // Inheritance
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = MStruct.class)
-    @JoinColumn(name = "Inherited_from", nullable = false)
+    @JoinColumn(name = "Inherited_from")
     private MStruct inheritance;
 
     // Composition
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = MStruct.class)
-    @JoinColumn(name = "CompostionWith", nullable = false)
+    @JoinColumn(name = "CompostionWith")
     private MStruct composition;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStructType() {
+        return structType;
+    }
+
+    public void setStructType(String structType) {
+        this.structType = structType;
+    }
+
+    public String getStructValue() {
+        return structValue;
+    }
+
+    public void setStructValue(String structValue) {
+        this.structValue = structValue;
+    }
+
+    public JsonNode getPosition() {
+        return position;
+    }
+
+    public void setPosition(JsonNode position) {
+        this.position = position;
+    }
+
+    public MFile getFile() {
+        return file;
+    }
+
+    public void setFile(MFile file) {
+        this.file = file;
+    }
+
+    public MStruct getInheritance() {
+        return inheritance;
+    }
+
+    public void setInheritance(MStruct inheritance) {
+        this.inheritance = inheritance;
+    }
+
+    public MStruct getComposition() {
+        return composition;
+    }
+
+    public void setComposition(MStruct composition) {
+        this.composition = composition;
+    }
 }

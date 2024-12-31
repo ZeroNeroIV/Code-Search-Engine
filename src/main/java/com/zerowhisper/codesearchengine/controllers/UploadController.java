@@ -34,6 +34,7 @@ public class UploadController {
 
         try {
             //Pass the zipFile To upload service to Unzip it and the pass
+            System.out.println(zipFile.getOriginalFilename());
             uploadService.unzipFile(zipFile);
             return ResponseEntity.ok().body("Successfully unzipped file.\n FileName: "+zipFile.getOriginalFilename());
         }catch (Exception e) {

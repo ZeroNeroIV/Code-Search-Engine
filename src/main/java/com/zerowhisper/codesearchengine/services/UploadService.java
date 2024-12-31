@@ -31,15 +31,17 @@ public class UploadService {
     public String unzipFile(MultipartFile zipFile) throws IOException {
 
 
+        //TODO MAKE sure to change the saving directory name
+
         //This line will make a Temp Directory in the system default directory
         //Original Path + The File Name
         Path tempDir = Files.createTempDirectory(Paths.get(System.getProperty("java.io.tmpdir")), "Uploaded_Files_");
 
         //Create MProject to save the upload data
         MProject project = new MProject();
-            project.setName(zipFile.getOriginalFilename());
-            project.setPath(tempDir.toString());
-            project.setUploadTime(LocalDateTime.now());
+        project.setName(zipFile.getOriginalFilename());
+        project.setPath(tempDir.toString());
+        project.setUploadTime(LocalDateTime.now());
         projectRepository.save(project);
 
         //This the List of the files path's will pass to the file service
@@ -73,9 +75,9 @@ public class UploadService {
                     }
                 }
             }
-            fileProcessingService.getFileContent(filePaths,project);
+            fileProcessingService.getFileContent(filePaths, project);
             return "File Unzipped";
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
