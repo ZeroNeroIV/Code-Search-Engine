@@ -19,6 +19,10 @@ public class MMethod {
     @Column
     private String methodValue;
 
+
+    @Column
+    private String analyzedMethodValue;
+
     @Column
     private String returnType;
 
@@ -71,4 +75,12 @@ public class MMethod {
     public void setStruct(MStruct struct) {
         this.struct = struct;
     }
+    public String getAnalyzedMethodValue() {
+        return analyzedMethodValue;
+    }
+
+    public void setAnalyzedMethodValue(String analyzedMethodValue) {
+        this.analyzedMethodValue = analyzedMethodValue;
+    }
+
 }

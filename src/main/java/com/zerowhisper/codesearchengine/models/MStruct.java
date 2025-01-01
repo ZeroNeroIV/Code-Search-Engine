@@ -23,6 +23,10 @@ public class MStruct {
     @Column
     private String structValue;
 
+
+    @Column
+    private String analyzedStructValue;
+
     @Type(JsonType.class)
     @Column(columnDefinition = "jsonb")
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -97,4 +101,12 @@ public class MStruct {
     public void setComposition(MStruct composition) {
         this.composition = composition;
     }
+    public String getAnalyzedStructValue() {
+        return analyzedStructValue;
+    }
+
+    public void setAnalyzedStructValue(String analyzedStructValue) {
+        this.analyzedStructValue = analyzedStructValue;
+    }
+
 }
