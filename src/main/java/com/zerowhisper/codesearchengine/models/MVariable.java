@@ -28,12 +28,69 @@ public class MVariable {
     private String containedAt;
 
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = MMethod.class)
-    private  Long methodId;
+    @JoinColumn(name = "method_id")
+    private  MMethod method;
 
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = MStruct.class)
-    private  Long structId;
+    @JoinColumn(name = "struct_id")
+    private  MStruct struct;
 
     @Column
     private String dataType;
 
+    public Long getVariableId() {
+        return variableId;
+    }
+
+    public void setVariableId(Long variableId) {
+        this.variableId = variableId;
+    }
+
+    public String getVariableValue() {
+        return variableValue;
+    }
+
+    public void setVariableValue(String variableValue) {
+        this.variableValue = variableValue;
+    }
+
+    public JsonNode getPosition() {
+        return position;
+    }
+
+    public void setPosition(JsonNode position) {
+        this.position = position;
+    }
+
+    public String getContainedAt() {
+        return containedAt;
+    }
+
+    public void setContainedAt(String containedAt) {
+        this.containedAt = containedAt;
+    }
+
+    public MMethod getMethod() {
+        return method;
+    }
+
+    public void setMethod(MMethod method) {
+        this.method = method;
+    }
+
+    public MStruct getStruct() {
+        return struct;
+    }
+
+    public void setStruct(MStruct struct) {
+        this.struct = struct;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
 }

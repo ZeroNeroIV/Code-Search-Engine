@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 
-@Data
+
 @Table
 @Entity
 public class MMethod {
@@ -22,8 +22,6 @@ public class MMethod {
     @Column
     private String returnType;
 
-    @Column
-    private String methodType;
 
     @Type(JsonType.class)
     @Column(columnDefinition = "jsonb")
@@ -31,5 +29,46 @@ public class MMethod {
     private JsonNode position; // as json string
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = MStruct.class)
-    private Long structId;
+    @JoinColumn(name = "Struct_id")
+    private MStruct struct;
+
+    public Long getMethodId() {
+        return methodId;
+    }
+
+    public void setMethodId(Long methodId) {
+        this.methodId = methodId;
+    }
+
+    public String getMethodValue() {
+        return methodValue;
+    }
+
+    public void setMethodValue(String methodValue) {
+        this.methodValue = methodValue;
+    }
+
+    public String getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
+    }
+
+    public JsonNode getPosition() {
+        return position;
+    }
+
+    public void setPosition(JsonNode position) {
+        this.position = position;
+    }
+
+    public MStruct getStruct() {
+        return struct;
+    }
+
+    public void setStruct(MStruct struct) {
+        this.struct = struct;
+    }
 }
