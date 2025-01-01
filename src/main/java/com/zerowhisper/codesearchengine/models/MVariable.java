@@ -19,6 +19,12 @@ public class MVariable {
     @Column
     private String variableValue;
 
+
+
+    @Column
+    private String analyzedVariableValue;
+
+
     @Type(JsonType.class)
     @Column(columnDefinition = "jsonb")
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -92,5 +98,12 @@ public class MVariable {
 
     public void setDataType(String dataType) {
         this.dataType = dataType;
+    }
+    public String getAnalyzedVariableValue() {
+        return analyzedVariableValue;
+    }
+
+    public void setAnalyzedVariableValue(String analyzedVariableValue) {
+        this.analyzedVariableValue = analyzedVariableValue;
     }
 }

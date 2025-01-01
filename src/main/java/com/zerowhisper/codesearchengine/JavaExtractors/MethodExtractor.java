@@ -1,9 +1,10 @@
-package com.zerowhisper.codesearchengine.Utilities;
+package com.zerowhisper.codesearchengine.JavaExtractors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.zerowhisper.codesearchengine.Analyzers.JavaAnalyzerService;
 import com.zerowhisper.codesearchengine.models.MMethod;
 import com.zerowhisper.codesearchengine.models.MStruct;
 import com.zerowhisper.codesearchengine.repositories.MethodRepository;
@@ -19,12 +20,14 @@ public class MethodExtractor  {
    private final MethodRepository methodRepository;
    private final VariableExtractor variableExtractor;
    private final LoopExtractor loopExtractor;
+   private final JavaAnalyzerService javaAnalyzerService;
 
    @Autowired
-    public MethodExtractor(MethodRepository methodRepository, VariableExtractor variableExtractor, LoopExtractor loopExtractor) {
+    public MethodExtractor(MethodRepository methodRepository, VariableExtractor variableExtractor, LoopExtractor loopExtractor, JavaAnalyzerService javaAnalyzerService) {
         this.methodRepository = methodRepository;
         this.variableExtractor = variableExtractor;
         this.loopExtractor = loopExtractor;
+        this.javaAnalyzerService = new JavaAnalyzerService();
     }
 
     public void process(MStruct mStruct, ClassOrInterfaceDeclaration clazz) {
@@ -52,6 +55,7 @@ public class MethodExtractor  {
                     mMethod.setStruct(mStruct);
                 });
                 //============================
+                mMethod.setAnalyzedMethodValue(javaAnalyzerService.analyze(mMethod.getMethodValue()));
                 methodRepository.save(mMethod);
                 variableExtractor.processFromMethod(mMethod,methodDeclaration);
                 loopExtractor.process(mMethod,methodDeclaration);

@@ -1,4 +1,4 @@
-package com.zerowhisper.codesearchengine.Utilities;
+package com.zerowhisper.codesearchengine.JavaExtractors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,7 +7,6 @@ import com.github.javaparser.ast.stmt.ForStmt;
 import com.zerowhisper.codesearchengine.models.MLoop;
 import com.zerowhisper.codesearchengine.models.MMethod;
 import com.zerowhisper.codesearchengine.repositories.LoopRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +45,7 @@ public class LoopExtractor{
                      loop.setCondition( statement.toString());});
 
                  List<String>updates=new ArrayList<>();
-                 lop.getInitialization().forEach(statement -> {
+                 lop.getUpdate().forEach(statement -> {
                      updates.add(statement.toString());
                  });
 

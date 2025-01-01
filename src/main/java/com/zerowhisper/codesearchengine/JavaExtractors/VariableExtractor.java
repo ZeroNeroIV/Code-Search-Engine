@@ -1,29 +1,27 @@
-package com.zerowhisper.codesearchengine.Utilities;
+package com.zerowhisper.codesearchengine.JavaExtractors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
+import com.zerowhisper.codesearchengine.Analyzers.JavaAnalyzerService;
 import com.zerowhisper.codesearchengine.models.*;
 import com.zerowhisper.codesearchengine.repositories.VariableRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
 public class VariableExtractor  {
 
     private final VariableRepository variableRepository;
+    private final JavaAnalyzerService javaAnalyzerService;
     @Autowired
-    public VariableExtractor(VariableRepository variableRepository) {
+    public VariableExtractor(VariableRepository variableRepository, JavaAnalyzerService javaAnalyzerService) {
+        this.javaAnalyzerService = javaAnalyzerService;
         this.variableRepository = variableRepository;
     }
 
@@ -48,7 +46,7 @@ public class VariableExtractor  {
                         JsonNode jsonNode = mapper.valueToTree(position);
                         variable.setPosition(jsonNode);
                     });
-                    variableRepository.save(variable);
+                    saveVariable(variable);
                 });
             });
     }
@@ -74,8 +72,12 @@ public class VariableExtractor  {
                 });
                 mVariable.setMethod(mMethod);
                 mMethod.setStruct(null);
-                variableRepository.save(mVariable);
+                saveVariable(mVariable);
             });
         });
+    }
+    public  void saveVariable(MVariable variable) {
+        variable.setAnalyzedVariableValue(javaAnalyzerService.analyze(variable.getVariableValue()));
+        variableRepository.save(variable);
     }
 }

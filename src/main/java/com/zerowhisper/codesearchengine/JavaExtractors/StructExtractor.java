@@ -1,13 +1,13 @@
-package com.zerowhisper.codesearchengine.Utilities;
+package com.zerowhisper.codesearchengine.JavaExtractors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.zerowhisper.codesearchengine.Analyzers.JavaAnalyzerService;
 import com.zerowhisper.codesearchengine.models.MFile;
 import com.zerowhisper.codesearchengine.models.MStruct;
 import com.zerowhisper.codesearchengine.repositories.StructRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +19,14 @@ public class StructExtractor {
     private final StructRepository structRepository;
     private final MethodExtractor methodExtractor;
     private final VariableExtractor variableExtractor;
+    private final JavaAnalyzerService javaAnalyzerService;
 
     @Autowired
-    public StructExtractor(StructRepository structRepository, MethodExtractor methodExtractor, VariableExtractor variableExtractor) {
+    public StructExtractor(StructRepository structRepository, MethodExtractor methodExtractor, VariableExtractor variableExtractor, JavaAnalyzerService javaAnalyzerService) {
         this.structRepository = structRepository;
         this.methodExtractor = methodExtractor;
         this.variableExtractor = variableExtractor;
+        this.javaAnalyzerService = javaAnalyzerService;
     }
 
 
@@ -79,6 +81,7 @@ public class StructExtractor {
                     token.setPosition(jsonNode);
                 });
                 //==============================
+                token.setAnalyzedStructValue(javaAnalyzerService.analyze(token.getStructValue()));
                 structRepository.save(token);
                 methodExtractor.process(token,classDeclaration );
                 variableExtractor.processFromClass(token,classDeclaration);

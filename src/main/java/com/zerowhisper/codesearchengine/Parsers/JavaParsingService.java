@@ -1,9 +1,9 @@
-package com.zerowhisper.codesearchengine.services;
+package com.zerowhisper.codesearchengine.Parsers;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.zerowhisper.codesearchengine.Interfaces.ParsingService;
-import com.zerowhisper.codesearchengine.Utilities.StructExtractor;
+import com.zerowhisper.codesearchengine.JavaExtractors.StructExtractor;
 import com.zerowhisper.codesearchengine.models.MFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
