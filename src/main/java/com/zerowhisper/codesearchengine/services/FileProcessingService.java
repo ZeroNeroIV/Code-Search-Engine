@@ -19,18 +19,15 @@ import java.util.List;
 public class FileProcessingService {
 
     private final FileRepository fileRepository;
-    private final JavaParsingService javaParsingService;
-
     @Autowired
     public FileProcessingService(FileRepository fileRepository, JavaParsingService javaParsingService) {
         this.fileRepository = fileRepository;
-        this.javaParsingService = javaParsingService;
     }
 
-
-    public String getFileContent(List<String> filesPath, MProject project) {
+    public List<MFile> getFileContent(Object[] objects) {
         List<MFile> fileContents = new ArrayList<>();
-
+        List<String> filesPath= (List<String>) objects[0];
+        MProject project= (MProject) objects[1];
         try {
             for (String path : filesPath) {
 
@@ -58,10 +55,8 @@ public class FileProcessingService {
         for (String path : filesPath) {
             System.out.println(path);
         }
-        //Pass the Content To Java Parser
-        javaParsingService.processFile(fileContents);
+        return fileContents;
 
-        return "Files Extracted Successfuly";
     }
 
     public String fileTypeIdentifier(String filePath) {

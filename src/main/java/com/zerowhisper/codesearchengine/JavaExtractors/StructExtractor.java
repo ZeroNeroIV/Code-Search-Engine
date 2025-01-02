@@ -11,7 +11,9 @@ import com.zerowhisper.codesearchengine.repositories.StructRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @Service
 public class StructExtractor {
@@ -81,10 +83,28 @@ public class StructExtractor {
                     token.setPosition(jsonNode);
                 });
                 //==============================
-                token.setAnalyzedStructValue(javaAnalyzerService.analyze(token.getStructValue()));
+                token.setAnalyzedStructValue(token.getStructValue());
                 structRepository.save(token);
                 methodExtractor.process(token,classDeclaration );
                 variableExtractor.processFromClass(token,classDeclaration);
+
+                List<String>listOfTokensForTheAnalyzedName=javaAnalyzerService.analyze(token.getStructValue());
+                if(listOfTokensForTheAnalyzedName.size()>1) {//this if checks the word even needs filtering
+                    for (String tokenName : listOfTokensForTheAnalyzedName) {
+                        if(tokenName.equals(token.getAnalyzedStructValue())) {
+                            continue;
+                        }
+                        MStruct tempStruct = new MStruct();
+                        tempStruct.setStructValue(token.getStructValue());
+                        tempStruct.setFile(mFile);
+                        tempStruct.setPosition(token.getPosition());
+                        tempStruct.setStructType(token.getStructType());
+                        tempStruct.setAnalyzedStructValue(tokenName);
+
+                        structRepository.save(tempStruct);
+
+                    }
+                }
             });
 
 

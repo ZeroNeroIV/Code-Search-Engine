@@ -2,6 +2,7 @@ package com.zerowhisper.codesearchengine.services;
 
 import com.zerowhisper.codesearchengine.models.MProject;
 import com.zerowhisper.codesearchengine.repositories.ProjectRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,8 @@ public class UploadService {
         this.fileProcessingService = fileProcessingService;
     }
 
-    public String unzipFile(MultipartFile zipFile) throws IOException {
+
+    public Object[] unzipFile(MultipartFile zipFile) throws IOException {
 
 
         //TODO MAKE sure to change the saving directory name
@@ -43,6 +45,7 @@ public class UploadService {
         project.setPath(tempDir.toString());
         project.setUploadTime(LocalDateTime.now());
         projectRepository.save(project);
+
 
         //This the List of the files path's will pass to the file service
         List<String> filePaths = new ArrayList<>();
@@ -75,8 +78,10 @@ public class UploadService {
                     }
                 }
             }
-            fileProcessingService.getFileContent(filePaths, project);
-            return "File Unzipped";
+
+            return new Object[] {filePaths,project};
+
+
         } catch (IOException e) {
             e.printStackTrace();
             return null;

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -55,10 +56,27 @@ public class MethodExtractor  {
                     mMethod.setStruct(mStruct);
                 });
                 //============================
-                mMethod.setAnalyzedMethodValue(javaAnalyzerService.analyze(mMethod.getMethodValue()));
+                mMethod.setAnalyzedMethodValue(methodDeclaration.getNameAsString());
                 methodRepository.save(mMethod);
-                variableExtractor.processFromMethod(mMethod,methodDeclaration);
-                loopExtractor.process(mMethod,methodDeclaration);
+
+                variableExtractor.processFromMethod(mMethod, methodDeclaration);
+                loopExtractor.process(mMethod, methodDeclaration);
+                List<String> listOfTokensForTheAnalyzedName=javaAnalyzerService.analyze(mMethod.getMethodValue());
+                if(listOfTokensForTheAnalyzedName.size()>1){//this if checks the word even needs filtering
+
+                    for (String token : listOfTokensForTheAnalyzedName) {
+                        if(token.equals(mMethod.getMethodValue())){
+                            continue;
+                        }
+                        MMethod tempMthMethod = new MMethod();
+                        tempMthMethod.setMethodValue(mMethod.getMethodValue());
+                        tempMthMethod.setStruct(mStruct);
+                        tempMthMethod.setPosition(mMethod.getPosition());
+                        tempMthMethod.setReturnType(mMethod.getReturnType());
+                        tempMthMethod.setAnalyzedMethodValue(token);
+                        methodRepository.save(tempMthMethod);
+                    }
+                }
             });
 
     }

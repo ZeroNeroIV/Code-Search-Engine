@@ -1,7 +1,9 @@
 package com.zerowhisper.codesearchengine.Interfaces;
 
+import java.util.List;
+
 public interface Analyzer {
 
-    String analyze(String token);
+    List<String> analyze(String token);
 
 }

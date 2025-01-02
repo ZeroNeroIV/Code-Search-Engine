@@ -1,6 +1,7 @@
 package com.zerowhisper.codesearchengine.controllers;
 
 import com.zerowhisper.codesearchengine.services.FileProcessingService;
+import com.zerowhisper.codesearchengine.services.ProcessService;
 import com.zerowhisper.codesearchengine.services.UploadService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,11 @@ import java.util.Objects;
 public class UploadController {
 
     private final UploadService uploadService;
+    private final ProcessService processService;
     @Autowired
-    public UploadController(UploadService uploadService) {
+    public UploadController(UploadService uploadService, ProcessService processService) {
         this.uploadService = uploadService;
+        this.processService = processService;
     }
 
 
@@ -35,7 +38,7 @@ public class UploadController {
         try {
             //Pass the zipFile To upload service to Unzip it and the pass
             System.out.println(zipFile.getOriginalFilename());
-            uploadService.unzipFile(zipFile);
+            processService.processPKG(zipFile);
             return ResponseEntity.ok().body("Successfully unzipped file.\n FileName: "+zipFile.getOriginalFilename());
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
