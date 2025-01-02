@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -71,13 +72,27 @@ public class VariableExtractor  {
                     mVariable.setPosition(jsonNode);
                 });
                 mVariable.setMethod(mMethod);
-                mMethod.setStruct(null);
+
                 saveVariable(mVariable);
             });
         });
     }
     public  void saveVariable(MVariable variable) {
-        variable.setAnalyzedVariableValue(javaAnalyzerService.analyze(variable.getVariableValue()));
-        variableRepository.save(variable);
+       variableRepository.save(variable);
+        List<String> listOfTokensForTheAnalyzedName = javaAnalyzerService.analyze(variable.getVariableValue());
+        for (String token : listOfTokensForTheAnalyzedName) {
+            if(variable.getVariableValue().equals(token)) {
+                continue;
+            }
+            MVariable tempVariable = new MVariable();
+            tempVariable.setVariableValue(variable.getVariableValue());
+            tempVariable.setDataType(variable.getDataType());
+            tempVariable.setContainedAt(variable.getContainedAt());
+            tempVariable.setMethod(variable.getMethod());
+            tempVariable.setPosition(variable.getPosition());
+
+            variable.setAnalyzedVariableValue(token);
+            variableRepository.save(tempVariable);
+        }
     }
 }

@@ -27,7 +27,6 @@ public class JavaParsingService implements ParsingService {
     @Override
     public void processFile(List<MFile> files) {
 
-
         CompilationUnit compilationUnit=new CompilationUnit();
 
         for(MFile file: files) {

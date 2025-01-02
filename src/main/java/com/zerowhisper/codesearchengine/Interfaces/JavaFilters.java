@@ -1,6 +1,8 @@
 package com.zerowhisper.codesearchengine.Interfaces;
 
+import java.util.List;
+
 public interface JavaFilters {
 
-    String doFilter(String token);
+    List<String> doFilter(List<String> token);
 }
