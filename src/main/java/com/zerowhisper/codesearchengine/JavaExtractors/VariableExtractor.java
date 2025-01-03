@@ -78,6 +78,7 @@ public class VariableExtractor  {
         });
     }
     public  void saveVariable(MVariable variable) {
+        variable.setAnalyzedVariableValue(variable.getVariableValue());
        variableRepository.save(variable);
         List<String> listOfTokensForTheAnalyzedName = javaAnalyzerService.analyze(variable.getVariableValue());
         for (String token : listOfTokensForTheAnalyzedName) {
@@ -89,9 +90,10 @@ public class VariableExtractor  {
             tempVariable.setDataType(variable.getDataType());
             tempVariable.setContainedAt(variable.getContainedAt());
             tempVariable.setMethod(variable.getMethod());
+            tempVariable.setStruct(variable.getStruct());
             tempVariable.setPosition(variable.getPosition());
 
-            variable.setAnalyzedVariableValue(token);
+            tempVariable.setAnalyzedVariableValue(token);
             variableRepository.save(tempVariable);
         }
     }
